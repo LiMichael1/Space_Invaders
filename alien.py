@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Alien(Sprite):
     """A class to represent a single aline in the fleet"""
 
@@ -11,7 +12,7 @@ class Alien(Sprite):
         self.ai_settings = ai_settings
 
         # load the alien image and set its rect attribute
-        self.image = pygame.image.load('images/alien.bmp')
+        #self.image = pygame.image.load('images/alien.bmp')
         self.rect = self.image.get_rect()
 
         # Start each new aline near the top left of the screen
@@ -24,7 +25,6 @@ class Alien(Sprite):
     def blitme(self):
         """Draw the alien at it's current location"""
         self.screen.blit(self.image, self.rect)
-
 
     def check_edges(self):
         """Return True if alien is at edge of screen"""

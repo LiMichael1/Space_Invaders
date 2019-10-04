@@ -23,8 +23,8 @@ def run_game():
     play_button = Button(ai_settings, screen, "Play")
 
     # instance to store game statistics and create a scoreboard
-    stats = GameStats(ai_settings)
-    sb = Scoreboard(ai_settings, screen, stats)
+    stats = GameStats(ai_settings=ai_settings)
+    sb = Scoreboard(ai_settings=ai_settings, screen=screen, stats=stats)
 
     # MAKE A SHIP
     ship = Ship(ai_settings, screen)
@@ -34,22 +34,22 @@ def run_game():
     aliens = Group()
 
     # Make an alien
-    gf.create_fleet(ai_settings, screen, ship, aliens)
+    gf.create_fleet(ai_settings=ai_settings, screen=screen, ship=ship, aliens=aliens)
 
     # MAIN LOOP FOR THE GAME
     while True:
 
-        gf.check_events(ai_settings, screen, stats, sb, play_button,ship,
-                        aliens, bullets)
+        gf.check_events(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, play_button=play_button, ship=ship,
+                        aliens=aliens, bullets=bullets)
         if stats.game_active:
             ship.update()
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens,
-                              bullets)
-            gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens,
-                             bullets)
+            gf.update_bullets(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, aliens=aliens,
+                              bullets=bullets)
+            gf.update_aliens(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, aliens=aliens,
+                             bullets=bullets)
 
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens,
-                         bullets, play_button)
+        gf.update_screen(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, aliens=aliens,
+                         bullets=bullets, play_button=play_button)
 
 
 run_game()
