@@ -1,15 +1,32 @@
 import pygame
 from pygame.sprite import Sprite
+from SpriteSheet import SpriteSheet
+from timer import Timer
+from settings import Settings
+import sys
+
 
 class Ship(Sprite):
+    sprite_sheet = SpriteSheet('images/Jet.png')
+    width = sprite_sheet.width()
+    height = sprite_sheet.height()
+    frames = []
+    for i in range(3):
+        for j in range(3):
+            frames.append(sprite_sheet.image_at((int(j * width/3), int(i * height/3), width/3, height/3)))
+    timer = Timer(frames=[frames[0], frames[1]])
+
+    explosion = frames[2:7]
+    explosion_timer = Timer(frames=explosion, looponce=True)
+
     def __init__(self, ai_settings, screen):
         """Initialize the ship and set its starting position"""
-        super(Ship,self).__init__()
+        super().__init__()
         self.screen = screen
         self.ai_settings = ai_settings
 
         # load the ship image and get it's rect
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = Ship.frames[0]
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
@@ -19,6 +36,7 @@ class Ship(Sprite):
 
         # Store a decimal value for the ship's center
         self.center = float(self.rect.centerx)
+
 
         # Movement flag
         self.moving_right = False
@@ -35,9 +53,45 @@ class Ship(Sprite):
 
     def blitme(self):
         """ Draw the ship at it's current location"""
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(self.imagerect(), self.rect)
 
 
     def center_ship(self):
         """Center the ship on the screen"""
         self.center = self.screen_rect.centerx
+
+    def imagerect(self):
+        return Ship.timer.imagerect()
+
+    def explode(self):
+        self.explode_rect = self.rect
+        self.screen.blit(self.explosion_timer.imagerect(), self.explode_rect)
+
+
+if __name__ == '__main__':
+    pygame.init()
+
+    settings = Settings()
+    screen = pygame.display.set_mode((settings.screen_width,
+                                      settings.screen_height))
+
+    clock = pygame.time.Clock()
+    ship = Ship(settings, screen)
+    explode = False
+    while True:
+        screen.fill((0, 0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_SPACE:
+                    explode = True
+
+        ship.explode()
+
+
+
+        pygame.display.update()
+        clock.tick(50)
+
+

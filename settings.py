@@ -1,3 +1,5 @@
+import pygame
+
 class Settings():
     """ A CLASS TO STORE ALL SETTINGS FOR ALIEN INVASION"""
 
@@ -6,7 +8,7 @@ class Settings():
         #Screen settings
         self.screen_width = 1200
         self.screen_height = 700
-        self.bg_color = (230, 240, 230)
+        self.bg_color = (0 , 0, 0  )
 
         # ship settings
         self.ship_speed_factor = 4.5
@@ -25,12 +27,18 @@ class Settings():
         # fleet_direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1
 
+        self.UFO_direction = 1
+
         # How quickly the game speeds up
         self.speedup_scale = 1.1
         # How quickly the aline point values increase
         self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
+        self.background = pygame.image.load('images/background.jpeg')
+        self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
+        self.background_rect = self.background.get_rect()
+
 
     def initialize_dynamic_settings(self):
         """Initialize settings that change throughout the game"""
@@ -40,6 +48,7 @@ class Settings():
 
         # fleet_direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1
+        self.UFO_direction = 1
 
         # Scoring
         self.alien_points = 50
@@ -51,4 +60,4 @@ class Settings():
         self.alien_speed_factor *= self.speedup_scale
 
         self.alien_points = int(self.alien_points * self.score_scale)
-        print(self.alien_points)
+

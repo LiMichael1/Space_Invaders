@@ -4,6 +4,9 @@ from time import sleep
 import pygame
 from bullet import Bullet
 from alien import Alien
+from Alien1 import Alien1
+from Alien2 import Alien2
+from Alien3 import Alien3
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
@@ -77,7 +80,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets,
                   play_button):
     """ Update images on the screen and flip to the new screen"""
     # Redraw the screen during each pass through the loop.
-    screen.fill(ai_settings.bg_color)
+    screen.fill((255, 255, 255 ))
     # Redraw all bullets behind ships and aliens
     for bullet in bullets.sprites():
         bullet.draw_bullets()
@@ -153,13 +156,12 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     """ Determine the number of rows of aliens that fit on the screen"""
     available_space_y = (ai_settings.screen_height -
                          (3 * alien_height) - ship_height)
-    number_rows = int(available_space_y/ (2 * alien_height))
+    number_rows = int(available_space_y / (2 * alien_height))
     return number_rows
 
 
-def create_alien(ai_settings, screen, aliens, alien_number, row_number):
+def create_alien(ai_settings, screen, aliens, alien_number, row_number, alien):
     """Create an alien and place it in the row"""
-    alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
@@ -171,18 +173,17 @@ def create_fleet(ai_settings, screen, ship, aliens):
     """Create a full fleet of aliens"""
     # Create an alien and find the number of aliens in a row.
     # Spacing between each alien is equal to one alien width
-
-    alien = Alien(ai_settings, screen)
-    number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
-    number_rows = get_number_rows(ai_settings, ship.rect.height,
-                                  alien.rect.height)
-
+    alien = [Alien1(ai_settings, screen), Alien2(ai_settings, screen), Alien3(ai_settings, screen)]
+    number_aliens_x = get_number_aliens_x(ai_settings, alien[0].rect.width)
+    number_rows = get_number_rows(ai_settings=ai_settings, ship_height=ship.rect.height,
+                                  alien_height=alien.rect.height)
     # Create the first row of aliens
     for row_number in range(number_rows):
+        alien_num = int(row_number+1/2)
         for alien_number in range(number_aliens_x):
             # Create an alien and place it in the row
-            create_alien(ai_settings, screen, aliens, alien_number,
-                         row_number)
+            create_alien(ai_settings=ai_settings, screen=screen, aliens=aliens, alien_number=alien_number,
+                         row_number=row_number)
 
 
 def check_fleet_edges(ai_settings, aliens):
@@ -200,7 +201,7 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 
-def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets):
+def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, high_score):
     """Respond to ship being hit by alien"""
     if stats.ships_left > 0:
         # Decrement ships_left

@@ -36,4 +36,7 @@ class Timer:
                ', wait=' + str(self.wait) + ', index=' + str(self.frameindex) + ')'
 
     def imagerect(self):
-        return self.frames[self.frame_index()]
+        frame = self.frames[self.frame_index()]
+        return frame
+        #return frame.get_rect()  ????
+

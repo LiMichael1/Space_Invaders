@@ -15,8 +15,8 @@ class Scoreboard:
         self.stats = stats
 
         # Font settings for scoring information
-        self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.text_color = (255, 20, 20)
+        self.font = pygame.font.SysFont('comicsansms', 48)
 
         # Prepare the initial score image
         self.prep_score()
@@ -73,7 +73,7 @@ class Scoreboard:
     def show_score(self):
         """Draw score and ships to the screen"""
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.high_score_image, self.high_score_rect)
+        #  self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
         # Draw ships
         self.ships.draw(self.screen)

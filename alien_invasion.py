@@ -17,15 +17,11 @@ def run_game():
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,
                                       ai_settings.screen_height))
-    pygame.display.set_caption("Alien Invasion")
-
-    # PLAY BUTTON
-    play_button = Button(ai_settings, screen, "Play")
+    pygame.display.set_caption("Space Invaders")
 
     # instance to store game statistics and create a scoreboard
     stats = GameStats(ai_settings=ai_settings)
     sb = Scoreboard(ai_settings=ai_settings, screen=screen, stats=stats)
-
     # MAKE A SHIP
     ship = Ship(ai_settings, screen)
 

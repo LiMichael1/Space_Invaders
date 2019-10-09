@@ -1,6 +1,8 @@
 import pygame
 from pygame.sprite import Sprite
 
+
+
 class Bullet(Sprite):
     """ A class to manaage bullets fired from the ship"""
 
@@ -8,9 +10,10 @@ class Bullet(Sprite):
         super(Bullet, self).__init__()
         self.screen = screen
 
+        self.image = pygame.image.load('images/laser.png').convert_alpha()
+        self.image = pygame.transform.scale(self.image, (ai_settings.bullet_width+30, ai_settings.bullet_height+30))
         # Create a bullet rect at (0, 0) and then set correct position
-        self.rect = pygame.Rect (0, 0, ai_settings.bullet_width,
-                                 ai_settings.bullet_height)
+        self.rect = self.image.get_rect()
         self.rect.centerx = ship.rect.centerx
         self.rect.top = ship.rect.top
 
@@ -29,5 +32,4 @@ class Bullet(Sprite):
 
     def draw_bullets(self):
         """Draw the bullet to screen"""
-        pygame.draw.rect(self.screen, self.color, self.rect)
-
+        self.screen.blit(self.image, self.rect)
