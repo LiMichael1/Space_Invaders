@@ -14,6 +14,7 @@ from ship import Ship
 from UFO import UFO
 from startScreen import StartScreen
 from Bunker import Bunker
+from gameover import GameOver
 
 class PlayScreen:
     def __init__(self, ai_settings, screen):
@@ -29,6 +30,8 @@ class PlayScreen:
         self.ship = Ship(ai_settings=self.ai_settings, screen=self.screen)
 
         self.high_score = High_Score(self.ai_settings, self.screen)
+        self.gameover = GameOver(self.ai_settings, self.screen)
+        self.quit = False
 
         self.alien1 = Alien1(ai_settings=self.ai_settings, screen=self.screen)
         self.alien2 = Alien2(ai_settings=self.ai_settings, screen=self.screen)
@@ -190,7 +193,6 @@ class PlayScreen:
             sleep(0.5)
 
         else:
-            print('lost')
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
             self.high_score.update_score(self.stats.score)
@@ -239,19 +241,34 @@ class PlayScreen:
 
         pygame.mixer.music.stop()
 
+    def gameOver_play(self):
+        self.gameover.draw()
+        for e in pygame.event.get():
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                _mouse_x, _mouse_y = pygame.mouse.get_pos()
+                if self.gameover.check_play_button(_mouse_x=_mouse_x, _mouse_y=_mouse_y):
+                    self.new_game()
+                    self.stats.game_active = True
+                elif self.gameover.check_quit_button(_mouse_x=_mouse_x, _mouse_y=_mouse_y):
+                    self.quit = True
+
     def play(self):
         self.start_screen_play()
 
         self.new_game()
         self.play_game_music()
-        while self.stats.game_active:
+        while not self.quit:
             self.check_events()
+            if self.stats.game_active:
+                self.ship.update()
+                self.update_bullets()
+                self.update_aliens()
+                self.update_screen()
 
-            self.ship.update()
-            self.update_bullets()
-            self.update_aliens()
+            else:
+                self.gameOver_play()
+                pygame.display.flip()
 
-            self.update_screen()
 
     # @staticmethod
     # def stop_music(self):
