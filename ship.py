@@ -64,9 +64,8 @@ class Ship(Sprite):
         return Ship.timer.imagerect()
 
     def explode(self):
-        self.explode_rect = self.rect
-        self.screen.blit(self.explosion_timer.imagerect(), self.explode_rect)
-
+        self.screen.blit(self.explosion_timer.imagerect(), self.rect)
+        pygame.display.flip()
 
 if __name__ == '__main__':
     pygame.init()

@@ -16,6 +16,8 @@ from startScreen import StartScreen
 from Bunker import Bunker
 from gameover import GameOver
 
+clock = pygame.time.Clock()
+
 class PlayScreen:
     def __init__(self, ai_settings, screen):
 
@@ -64,6 +66,8 @@ class PlayScreen:
 
             elif event.type == pygame.KEYUP:
                 self.check_keyup_events(event)
+
+
 
     def check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -147,7 +151,7 @@ class PlayScreen:
         collisions = []
 
         for alien_group in self.alien_group:
-            collisions.append(pygame.sprite.groupcollide(self.bullets, alien_group, True, False))
+            collisions.append(pygame.sprite.groupcollide(self.bullets, alien_group, True, True))
 
         if pygame.sprite.spritecollideany(self.UFO, self.bullets):
             self.UFO.explode()
@@ -156,8 +160,10 @@ class PlayScreen:
         for i in range(len(collisions)):
             for aliens in collisions[i].values():
                 for alien in aliens:
-                    alien.explode()
-                    alien.kill()
+                    for i in range(4):
+                        alien.explode()
+                        sleep(0.005)
+                    alien.explosion_timer.reset()
                     # needs to update settings for alien points
                     self.stats.score += self.ai_settings.alien_points * len(aliens)
                     self.sb.prep_score()
@@ -173,7 +179,7 @@ class PlayScreen:
 
 
 
-    def ship_hit(self):
+    def ship_hit(self, destroyed):
         self.stats.ships_left -= 1
 
         if self.stats.ships_left > 0:
@@ -193,6 +199,9 @@ class PlayScreen:
             sleep(0.5)
 
         else:
+            for i in range(6):
+                self.ship.explode()
+                sleep(0.3)
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
             self.high_score.update_score(self.stats.score)
@@ -269,6 +278,8 @@ class PlayScreen:
                 self.gameOver_play()
                 pygame.display.flip()
 
+            clock.tick(100)
+
 
     # @staticmethod
     # def stop_music(self):
@@ -306,7 +317,7 @@ class PlayScreen:
         for alien_group in self.alien_group:
             for alien in alien_group:
                 if alien.rect.bottom >= screen_rect.bottom:
-                    self.ship_hit()
+                    self.ship_hit(False)
                     break
 
     def update_aliens(self):
@@ -314,8 +325,7 @@ class PlayScreen:
         for alien_group in self.alien_group:
             alien_group.update()
             if pygame.sprite.spritecollideany(self.ship, alien_group):
-                self.ship.explode()
-                self.ship_hit()
+                self.ship_hit(True)
         self.update_UFO()
         self.check_aliens_bottom()
 
