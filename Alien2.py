@@ -5,6 +5,7 @@ from SpriteSheet import SpriteSheet
 from settings import Settings
 import sys
 
+
 class Alien2(Alien):
     sprite_sheet = SpriteSheet('images/Alien_Squid.png')
     width = sprite_sheet.width()
@@ -12,8 +13,8 @@ class Alien2(Alien):
     frames = []
     for i in range(2):
         frames.append(sprite_sheet.image_at((0, int(i * height / 2), width, int(height / 2))))
-    for x in frames:
-        x = pygame.transform.scale(x, (48, 48))
+    for t in frames:
+        t = pygame.transform.scale(t, (48, 48))
 
     timer = Timer(frames=frames)
 
@@ -22,6 +23,9 @@ class Alien2(Alien):
 
     def imagerect(self):
         return Alien2.timer.imagerect()
+
+
+
 
 
 if __name__ == '__main__':

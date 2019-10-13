@@ -19,8 +19,8 @@ class GameOver(pygame.sprite.Sprite):
         self.game_over_message_rect.centerx = self.screen.get_rect().centerx
         self.game_over_message_rect.centery = self.screen.get_rect().centery/2
 
-        self.image = pygame.Surface([800, 800])
-        self.image.fill((0, 0, 255))
+        self.image = pygame.Surface([600, 600])
+        self.image.fill((0, 100, 200))
         self.image_rect = self.image.get_rect()
         self.image_rect.centerx = self.screen.get_rect().centerx
         self.image_rect.centery = self.screen.get_rect().centery

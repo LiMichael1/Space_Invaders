@@ -22,3 +22,5 @@ class Alien3(Alien):
 
     def imagerect(self):
         return Alien3.timer.imagerect()
+
+

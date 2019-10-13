@@ -18,7 +18,7 @@ class Alien(Sprite):
     for j in explosion_frames:
         j = pygame.transform.scale(j, (48, 48))
 
-    explosion_timer = Timer(frames=explosion_frames, wait=200, looponce=True)
+    explosion_timer = Timer(frames=explosion_frames, wait=100)
 
     def __init__(self, ai_settings, screen):
         """ Initialize the alien and set its starting position"""
@@ -61,6 +61,9 @@ class Alien(Sprite):
         self.rect.x = self.x
 
     def explode(self):
-        # self.image = Alien.explosion_timer.imagerect()
-        self.screen.blit(Alien.explosion_timer.imagerect(), self.rect)
-        pygame.display.flip()
+        for _ in range(4):
+            self.screen.blit(Alien.explosion_timer.imagerect(), self.rect)
+            pygame.display.flip()
+
+
+

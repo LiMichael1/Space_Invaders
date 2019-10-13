@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Settings():
     """ A CLASS TO STORE ALL SETTINGS FOR ALIEN INVASION"""
@@ -20,6 +21,9 @@ class Settings():
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
+
+        self.enemy_bullets_allowed = 2
+        self.probability_to_fire = 0.01
 
         # Alien settings
         self.alien_speed_factor = 1
@@ -51,7 +55,8 @@ class Settings():
         self.UFO_direction = 1
 
         # Scoring
-        self.alien_points = 50
+        self.alien_points = [10, 20, 40]
+        self.ufo_points = random.randrange(30, 100, 10)
 
     def increase_speed(self):
         """Increase speed settings and alien point values"""
@@ -59,5 +64,7 @@ class Settings():
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
 
-        self.alien_points = int(self.alien_points * self.score_scale)
+        self.ufo_points = int(self.ufo_points * self.score_scale)
+        for x in range(len(self.alien_points)):
+            self.alien_points[x] = int(self.alien_points[x] * self.score_scale)
 
