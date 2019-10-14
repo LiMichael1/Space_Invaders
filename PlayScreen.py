@@ -60,7 +60,7 @@ class PlayScreen:
 
     def create_bunker(self):
         for x in range(3):
-            bunk = Bunker(ai_settings=ai_settings, screen=screen,
+            bunk = Bunker(ai_settings=self.ai_settings, screen=self.screen,
                           centerx= x * 400 + 200, centery=self.ai_settings.screen_height - 100)
             self.bunker.add(bunk)
 
